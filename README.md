@@ -20,7 +20,7 @@ Protected Routes
 Only logged-in users can access favorite characters or custom lists
 JWT middleware ensures secure API access
 
-🛠️ Tech Stack
+# Tech Stack
 Frontend	React, Context API, Tailwind CSS 
 Backend	Node.js, Express.js
 Database	MongoDB
@@ -49,8 +49,6 @@ JWT_SECRET=jsdfviorwerbgvsndmfvposbfvuerijvmkksjfjsahjkjdsvsdkjf3456789o0poijhgf
 # Run server
 npm run dev
 
-Frontend
-cd frontend
 
 # Install dependencies
 npm install
@@ -58,7 +56,7 @@ npm install
 # Start React app
 npm start
 
-🧩 API Endpoints Authentication Endpoint	Method	Description
+# API Endpoints Authentication Endpoint	Method	Description
 
 /api/v1/auth/send-otp	POST	Send OTP to email
 
@@ -94,13 +92,11 @@ Example Login Payload:
 
 Protect routes by checking JWT cookie:
 
-
-
 # Future Improvements
 
 Future improvements include adding a favorites list for logged-in users
 integrating server-side pagination and caching for better performance,
 Enhancing the UI with React animations like Star Wars lightsaber effects.
 
-👨‍💻 Author
+# Author
 Rijwan Husain
