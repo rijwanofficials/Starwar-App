@@ -62,8 +62,11 @@ npm start
 Authentication
 Endpoint	Method	Description
 /api/v1/auth/send-otp	POST	Send OTP to email
+
 /api/v1/auth/signup	POST	Create user after OTP verification
+
 /api/v1/auth/login	POST	Login user and set JWT cookie
+
 /api/v1/auth/logout	GET	Logout user and clear cookie
 
 Example Signup Payload:
