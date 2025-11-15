@@ -84,28 +84,23 @@ Example Login Payload:
   "password": "StarWars@123"
 }
 
-Star Wars API
-Endpoint	Method	Description
+# Star Wars API Endpoint	Method	Description
 /api/v1/characters?page=1	GET	Get paginated list of characters
 /api/v1/planets?page=1	GET	Get paginated list of planets
 /api/v1/starships?page=1	GET	Get paginated list of starships
 /api/v1/search	GET	Search characters, planets, or starships
-🔒 Authentication Middleware
+
+# Authentication Middleware
 
 Protect routes by checking JWT cookie:
 
-const token = req.cookies.authorization;
-jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-    if (err) return res.status(401).json({ message: "Unauthorized" });
-    req.user = decoded;
-    next();
-});
 
-💡 Future Improvements
 
-Add favorites list for logged-in users
-Integrate server-side pagination and caching for better performance
-Add React animations for Star Wars lightsaber effects
+# Future Improvements
+
+Future improvements include adding a favorites list for logged-in users
+integrating server-side pagination and caching for better performance,
+Enhancing the UI with React animations like Star Wars lightsaber effects.
 
 👨‍💻 Author
 Rijwan Husain
