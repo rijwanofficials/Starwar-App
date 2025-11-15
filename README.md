@@ -58,9 +58,8 @@ npm install
 # Start React app
 npm start
 
-🧩 API Endpoints
-Authentication
-Endpoint	Method	Description
+🧩 API Endpoints Authentication Endpoint	Method	Description
+
 /api/v1/auth/send-otp	POST	Send OTP to email
 
 /api/v1/auth/signup	POST	Create user after OTP verification
