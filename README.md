@@ -37,13 +37,17 @@ cd backend
 # Install dependencies
 npm install
 
-# Create .env file
+# Created .env file
 # Example:
-PORT=3800
-MONGO_URI=mongodb+srv://husainrijwan2001_db_user:Rijwan1234@cluster0.bq2pkdv.mongodb.net/?appName=Cluster0
+PORT=xxx
+
+MONGO_URI=mongodb+srv://husainrijwan2001_db_user:Rijwan1234@cluster0.xxxxxxxxxxx
+
 SMTP_USER=husainrijwan2001@gmail.com
-SMTP_PASS=qosxsmxiorsqpqqn
-JWT_SECRET=jsdfviorwerbgvsndmfvposbfvuerijvmkksjfjsahjkjdsvsdkjf3456789o0poijhgfdsdfghjkjvahjfdkvhfnkfdhjabuidccjsierifoafnvjkawyefdduiekabshdcbaidfvnkjs
+
+SMTP_PASS=qosxsmxiorsxxxxx
+
+JWT_SECRET=jsdfviorwerbgvsndmfvposbfvuerijvmkksjfjsahjkjdsvsdkjf3456789o0poijhgfdsdfghjkjvahjfdkvhxxxxxxxxxxxxxxxxxxxx
 
 
 # Run server
