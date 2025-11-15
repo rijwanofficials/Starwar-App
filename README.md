@@ -102,12 +102,8 @@ jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
 💡 Future Improvements
 
 Add favorites list for logged-in users
-
-Implement Redux or Zustand for state management
-
 Integrate server-side pagination and caching for better performance
-
-Add React animations for Star Wars lightsaber effects ⚔️
+Add React animations for Star Wars lightsaber effects
 
 👨‍💻 Author
 Rijwan Husain
