@@ -1,4 +1,4 @@
-#Star Wars Full-Stack App
+# Star Wars Full-Stack App
 
 A full-stack web application built with React (frontend), Node.js + Express (backend), and MongoDB that allows users to explore Star Wars characters, planets, starships, and more. Includes user authentication with OTP verification and JWT-based session management.
 
