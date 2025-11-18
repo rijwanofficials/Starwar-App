@@ -1,26 +1,17 @@
+const OtpModel = require("../../../models/otpSchema");
 
-const usersignupValidator = (req, res, next) => {
+const usersignupValidator = async (req, res, next) => {
     try {
         console.log("--Inside usersignupValidator--");
-        let { name, email, password, otp } = req.body;
-        console.log("Inside usersignupValidator",name,email,password,otp);
-
+        let { otp, name, password, otpId } = req.body;
+        console.log("Inside usersignupValidator", otp, name, password, otpId);
         name = name?.trim();
-        email = email?.trim();
         password = password?.trim();
-
-        if (!name || !email || !password) {
+        otp = otp?.trim();
+        if (!name || !password || !otp || !otpId) {
             return res.status(400).json({
                 isSuccess: false,
-                message: "Name, email, and password are required.",
-            });
-        }
-
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            return res.status(400).json({
-                isSuccess: false,
-                message: "Invalid email format.",
+                message: "Name, password, OTP, and OTP ID are required.",
             });
         }
 
@@ -30,8 +21,26 @@ const usersignupValidator = (req, res, next) => {
                 message: "Password must be at least 6 characters long.",
             });
         }
-        req.body = { name, email, password, otp };
+        const otpRecord = await OtpModel.findById(otpId);
+        if (!otpRecord) {
+            return res.status(400).json({
+                isSuccess: false,
+                message: "Invalid OTP ID.",
+            });
+        }
+
+        const email = otpRecord.email?.trim().toLowerCase();
+        console.log("Email extracted in usersignupValidator:", email);
+        req.body = {
+            name,
+            password,
+            otp,
+            otpId,
+            email, 
+        };
+
         next();
+
     } catch (err) {
         console.error("❌ Error in usersignupValidator:", err.message);
         res.status(500).json({
@@ -63,8 +72,6 @@ const userloginValidator = (req, res, next) => {
                 message: "Invalid email format.",
             });
         }
-
-        // sanitized values
         req.body = { email, password };
         next();
     } catch (err) {

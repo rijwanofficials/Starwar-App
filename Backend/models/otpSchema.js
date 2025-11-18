@@ -5,11 +5,11 @@ const { Schema, model } = mongoose;
 const otpSchema = new Schema(
     {
         email: { type: String, required: true },
-        otp: { type: Number, required: true },
+        otp: { type: String, required: true },
         expiresAt: { type: Date, required: true },
     },
     { timestamps: true }
 );
 
-const OtpModel = model("Otp", otpSchema); // Use a clear variable name
+const OtpModel = model("Otp", otpSchema);
 module.exports = OtpModel;

@@ -24,7 +24,7 @@ const LoginPage = () => {
       const loggedInUser = await login(email, password);
       if (loggedInUser) {
         ShowSuccessToast("Login successful!");
-        navigate("/"); // <-- Redirect to home page
+        navigate("/");
       } else {
         ShowErrorToast("Invalid credentials!");
       }

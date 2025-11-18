@@ -21,17 +21,14 @@ export const AuthProvider = ({ children }) => {
         const result = await res.json();
         setUser(result.user);
         setIsLoggedIn(true);
-        localStorage.setItem("user", JSON.stringify(result.user)); // persist
       } else {
         setUser(null);
         setIsLoggedIn(false);
-        localStorage.removeItem("user");
       }
     } catch (err) {
       console.error("Error fetching profile:", err);
       setUser(null);
       setIsLoggedIn(false);
-      localStorage.removeItem("user");
     } finally {
       setAppLoading(false);
     }
@@ -54,7 +51,6 @@ export const AuthProvider = ({ children }) => {
       if (res.ok) {
         setUser(result.user);
         setIsLoggedIn(true);
-        localStorage.setItem("user", JSON.stringify(result.user));
         ShowSuccessToast("Login successful!");
         return result.user;
       } else {
@@ -74,16 +70,16 @@ export const AuthProvider = ({ children }) => {
 
   // --------------------------
   // Signup
-  const signup = async (name, email, password, otp) => {
+  const signup = async (otp, name, password, otpId ) => {
     setLoading(true);
     try {
       const res = await fetch(`${API_URL}/auth/signup`, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password, otp }),
+        body: JSON.stringify({ otp, name, password, otpId }),
       });
-
+      console.log(otp, name, password, otpId)
       const result = await res.json();
 
       if (res.ok) {
@@ -146,7 +142,7 @@ export const AuthProvider = ({ children }) => {
 
       if (res.ok) {
         ShowSuccessToast("OTP sent successfully!");
-        return true;
+        return result;
       } else {
         ShowErrorToast(result.message || "Failed to send OTP");
         return false;
@@ -160,16 +156,9 @@ export const AuthProvider = ({ children }) => {
   };
 
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-      setIsLoggedIn(true);
-      setAppLoading(false);
-    } else {
-      getUserProfile();
-    }
-  }, []);
+useEffect(() => {
+  getUserProfile();
+}, []);
 
   const sharedValues = {
     user,

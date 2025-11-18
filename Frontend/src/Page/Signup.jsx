@@ -3,10 +3,11 @@ import { ClipLoader } from "react-spinners";
 import { Eye, EyeOff } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { ShowErrorToast, ShowSuccessToast } from "../utils/ToastMessageHelper";
+import { ShowErrorToast } from "../utils/ToastMessageHelper";
 
 const SignupPage = () => {
   const { signup, sendOtp } = useAuth();
+  const [otpId, setOtpId] = useState(null);
 
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
@@ -33,9 +34,12 @@ const SignupPage = () => {
     }
     try {
       setOtpLoading(true);
-      await sendOtp(email.trim());
+      const res=await sendOtp(email.trim());
+      console.log(res);
+      setOtpId(res.otpId);
+      console.log("Response of otp api", res);
+      
       setIsOtpSent(true);
-      ShowSuccessToast("OTP sent successfully!"); // <-- Success toast
     } catch (err) {
       console.error(err);
       ShowErrorToast(err.message || "Failed to send OTP.");
@@ -43,7 +47,6 @@ const SignupPage = () => {
       setOtpLoading(false);
     }
   };
-
   const handleSignup = async (e) => {
     e.preventDefault();
     if (!otp.trim() || !name.trim() || !password) {
@@ -52,14 +55,13 @@ const SignupPage = () => {
     }
     try {
       setSignupLoading(true);
-      const user = await signup(name.trim(), email.trim(), password, otp.trim());
+      console.log("Before sending to authfunction", otp, name, password, otpId );
+      const user = await signup( otp, name, password, otpId );
       if (user) {
-        ShowSuccessToast("Account created successfully!"); // <-- Success toast
         navigate("/");
       }
     } catch (err) {
       console.error(err);
-      ShowErrorToast(err.message || "Signup failed!");
     } finally {
       setSignupLoading(false);
     }

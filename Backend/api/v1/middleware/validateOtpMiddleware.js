@@ -3,19 +3,25 @@ const OtpModel = require("../../../models/otpSchema");
 const validateOtpMiddleware = async (req, res, next) => {
     try {
         console.log("---Inside validateOtpMiddleware---");
-        const { email, otp } = req.body;
-        console.log("Email and otp in validateOtpMiddleware from input:", email, otp);
+        let { otp, name, password, email } = req.body;
+        console.log("Data from body:", otp, name, password, email);
 
-        if (!email || !otp) {
+        if (!email) {
             return res.status(400).json({
                 isSuccess: false,
-                message: "Email and OTP are required",
+                message: "Email is required",
+            });
+        }
+        if (!otp) {
+            return res.status(400).json({
+                isSuccess: false,
+                message: "OTP is required",
             });
         }
 
-        const normalizedEmail = email.toLowerCase();
-        const otpRecord = await OtpModel.findOne({ email: normalizedEmail }).sort({ createdAt: -1 });
-
+        otp = otp.toString();
+        console.log("Validating OTP for:", email, otp);
+        const otpRecord = await OtpModel.findOne({ email }).sort({ createdAt: -1 });
         if (!otpRecord) {
             return res.status(400).json({
                 isSuccess: false,
@@ -33,16 +39,16 @@ const validateOtpMiddleware = async (req, res, next) => {
             });
         }
 
-        if (otpRecord.otp.toString() !== otp.toString()) {
+        if (otpRecord.otp.toString() !== otp) {
             console.log("OTP mismatch!");
             return res.status(400).json({
                 isSuccess: false,
                 message: "Invalid OTP. Try again.",
             });
         }
-
         await otpRecord.deleteOne();
         console.log(`✅ OTP verified for ${email}`);
+
         next();
     } catch (err) {
         console.error("❌ Error in validateOtpMiddleware:", err.message);
