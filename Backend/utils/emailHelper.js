@@ -1,48 +1,38 @@
-const Brevo = require("@getbrevo/brevo");
+const { Resend } = require("resend");
 
-let emailAPI = new Brevo.TransactionalEmailsApi();
-emailAPI.authentications.apiKey.apiKey = process.env.BREVO_API_KEY;
+const resendApiKey = new Resend(process.env.RESEND_API_KEY);
 
-const sendEmail = async (toEmail, subject, htmlText, textText) => {
+const sendEmail = async (toEmail, subject, htmlText) => {
   try {
-    const sendSmtpEmail = {
-      sender: { name: "From Star Wars Team Creator Rijwan", email: "husainrijwan2001@gmail.com" },
-      to: [{ email: toEmail }],
+    const { data, error } = await resendApiKey.emails.send({
+      from: "Verification@email.rijwan.me",
+      to: toEmail,
       subject,
-      htmlContent: htmlText,
-      textContent: textText,
-    };
-
-    const response = await emailAPI.sendTransacEmail(sendSmtpEmail);
-
-    console.log("📧 Email sent successfully:", response?.messageId || response);
-    return { success: true, response };
-  } catch (error) {
-    console.error("❌ Brevo Email Error");
-
-    if (error?.response?.body) {
-      console.error("API Error Body:", error.response.body);
-
+      html: htmlText,
+    });
+    if (error) {
+      console.error("Error sending email:", error);
       return {
-        success: false,
-        message: error.response.body.message || "Brevo API error occurred",
-        details: error.response.body,
+        isSuccess: false,
+        message: "Failed to send email",
+        error: error
       };
     }
-    if (error.code === "ENOTFOUND" || error.code === "ECONNREFUSED") {
-      console.error("➡ Network Error:", error.code);
+    else {
+      console.log("Email sent successfully:", data);
       return {
-        success: false,
-        message: "Network error: cannot reach Brevo servers",
-        details: error.code,
+        isSuccess: true,
+        message: "Email sent successfully",
+        data: data
       };
     }
-    console.error("➡ Unknown Error:", error.message);
+  } catch (err) {
+    console.error("Email Exception:", err);
     return {
-      success: false,
-      message: error.message || "Unknown email error",
+      isSuccess: false,
+      message: "Failed to send email",
+      error: err.message
     };
   }
 };
-
 module.exports = { sendEmail };
